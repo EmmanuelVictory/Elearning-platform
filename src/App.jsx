@@ -923,7 +923,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
 
   return (
     <div style={{ padding: "2.5rem", maxWidth: 900 }}>
-      <h1 style={{ fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>My Learning</h1>
+      <h1 style={{color: "var(--text1)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>My Learning</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>Track your progress and continue where you left off.</p>
 
       {/* Stats */}
