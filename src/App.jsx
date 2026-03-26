@@ -704,7 +704,7 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
 
       <div style={{ padding: "2.5rem", background: "var(--white)", borderBottom: "1px solid var(--border)" }}>
         <CategoryBadge cat={course.category} />
-        <h1 style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700, marginBottom: ".75rem", lineHeight: 1.2, letterSpacing: "-.01em" }}>{course.title}</h1>
+        <h1 style={{ color: "var(--text1)", fontFamily: "var(--serif)", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700, marginBottom: ".75rem", lineHeight: 1.2, letterSpacing: "-.01em" }}>{course.title}</h1>
         <p style={{ fontSize: ".9rem", color: "var(--text2)", lineHeight: 1.7, maxWidth: "44rem", marginBottom: "1.5rem" }}>{course.longDesc}</p>
         <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
           {[["★", `${course.rating} rating`, "var(--gold)"], ["👥", course.students.toLocaleString()], ["⏱", course.duration], ["📖", `${allLessons.length} lessons`]].map(([icon, val, iconColor]) => (
