@@ -632,7 +632,7 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
 
   return (
     <div style={{ padding: "2.5rem" }}>
-      <h1 style={{ fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
+      <h1 style={{color: "var(--text1)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>{filtered.length} courses across {new Set(filtered.map((c) => c.category)).size} disciplines</p>
 
       <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: "2rem", flexWrap: "wrap" }}>
