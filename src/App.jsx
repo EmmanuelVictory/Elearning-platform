@@ -602,7 +602,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
 
       {/* CTA */}
       <div style={{ textAlign: "center", padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)" }}>
-        <h2 style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.8rem,3.5vw,2.5rem)", fontWeight: 700, marginBottom: "1rem", letterSpacing: "-.01em" }}>
+        <h2 style={{color: "var(--text1)", fontFamily: "var(--serif)", fontSize: "clamp(1.8rem,3.5vw,2.5rem)", fontWeight: 700, marginBottom: "1rem", letterSpacing: "-.01em" }}>
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
@@ -632,7 +632,7 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
 
   return (
     <div style={{ padding: "2.5rem" }}>
-      <h1 style={{ fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
+      <h1 style={{color: "var(--text1)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>{filtered.length} courses across {new Set(filtered.map((c) => c.category)).size} disciplines</p>
 
       <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: "2rem", flexWrap: "wrap" }}>
@@ -704,7 +704,7 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
 
       <div style={{ padding: "2.5rem", background: "var(--white)", borderBottom: "1px solid var(--border)" }}>
         <CategoryBadge cat={course.category} />
-        <h1 style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700, marginBottom: ".75rem", lineHeight: 1.2, letterSpacing: "-.01em" }}>{course.title}</h1>
+        <h1 style={{ color: "var(--text1", fontFamily: "var(--serif)", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700, marginBottom: ".75rem", lineHeight: 1.2, letterSpacing: "-.01em" }}>{course.title}</h1>
         <p style={{ fontSize: ".9rem", color: "var(--text2)", lineHeight: 1.7, maxWidth: "44rem", marginBottom: "1.5rem" }}>{course.longDesc}</p>
         <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
           {[["★", `${course.rating} rating`, "var(--gold)"], ["👥", course.students.toLocaleString()], ["⏱", course.duration], ["📖", `${allLessons.length} lessons`]].map(([icon, val, iconColor]) => (
