@@ -565,18 +565,18 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
         </div>
       </div>
 
-      {/* Learning Paths */}
+      {/* Learning Paths — border removed, gap creates internal dividers */}
       <div style={{ padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <SectionLabel>Browse by Topic</SectionLabel>
         <SectionTitle style={{ marginBottom: "2rem" }}>Find your path</SectionTitle>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: "1px", background: "var(--border)", border: "1px solid var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
           {LEARNING_PATHS.map((path) => (
             <LearningPathCard key={path.name} path={path} onClick={() => setPage("courses")} />
           ))}
         </div>
       </div>
 
-      {/* Featured Courses */}
+      {/* Featured Courses — border removed */}
       <div style={{ padding: "4rem 2.5rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem" }}>
           <div>
@@ -587,7 +587,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             View all courses
           </button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", border: "1px solid var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
           {COURSES.slice(0, 4).map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); }} />
@@ -675,7 +675,8 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           <div style={{ fontSize: ".85rem" }}>Try a different filter or search term.</div>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", border: "1px solid var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        /* Courses grid — border removed */
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
           {filtered.map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); setPage("detail"); }} />
