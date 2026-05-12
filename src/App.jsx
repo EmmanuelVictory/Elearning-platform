@@ -947,7 +947,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             <img src={LOGO_SRC} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)", marginBottom: ".5rem" }}>No courses yet</h3>
-          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll in your first course.</p>
+          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll your first course.</p>
           <Btn onClick={() => setPage("courses")}>Browse Courses</Btn>
         </div>
       ) : (
