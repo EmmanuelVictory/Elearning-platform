@@ -42,8 +42,9 @@ const GLOBAL_CSS = `
   }
   #root{width:100%;overflow-x:hidden}
   ::-webkit-scrollbar{width:6px}
-  ::-webkit-scrollbar-track{background:var(--cream2)}
+  ::-webkit-scrollbar-track{background:var(--cream)}
   ::-webkit-scrollbar-thumb{background:rgba(232,168,64,0.3);border-radius:99px}
+  html{scrollbar-gutter:stable}
   button{font-family:inherit;cursor:pointer;border:none;background:none}
   input{font-family:inherit}
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -451,7 +452,7 @@ function CourseCard({ course, enrolled, progress, onClick }) {
 
 function Navbar({ page, setPage, enrollCount }) {
   return (
-    <nav style={{ position: "sticky", top: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", height: 64, background: "rgba(15,17,23,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(232,168,64,0.12)", boxShadow: "0 1px 30px rgba(0,0,0,0.5)" }}>
+    <nav style={{ position: "sticky", top: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", height: 64, background: "rgba(15,17,23,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(232,168,64,0.12)", boxShadow: "0 4px 20px 0 rgba(0,0,0,0.5)" }}>
       <div onClick={() => setPage("home")} style={{ display: "flex", alignItems: "center", gap: ".5rem", fontFamily: "var(--serif)", fontSize: "1.25rem", fontWeight: 600, cursor: "pointer", color: "var(--text)" }}>
         <img src={LOGO_SRC} alt="YouLearn" style={{ width: 36, height: 36, objectFit: "contain", borderRadius: 4 }} />
         YouLearn
@@ -948,7 +949,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             <img src={LOGO_SRC} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)", marginBottom: ".5rem" }}>No courses yet</h3>
-          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll  your first course.</p>
+          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll your first course.</p>
           <Btn onClick={() => setPage("courses")}>Browse Courses</Btn>
         </div>
       ) : (
