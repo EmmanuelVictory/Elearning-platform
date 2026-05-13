@@ -38,10 +38,7 @@ const GLOBAL_CSS = `
     overflow-x:hidden;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 10% 0%, rgba(232,168,64,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(180,100,255,0.05) 0%, transparent 50%);
-    background-attachment:fixed;
+
   }
   #root{width:100%;overflow-x:hidden}
   ::-webkit-scrollbar{width:6px}
@@ -522,10 +519,10 @@ function LearningPathCard({ path, onClick }) {
 
 function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   return (
-    <div>
+    <div style={{ background: "var(--cream)" }}>
       {/* Hero */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 480 }}>
-        <div style={{ padding: "4rem 2.5rem 3rem", background: "linear-gradient(135deg, rgba(232,168,64,0.05) 0%, transparent 60%)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 480, background: "var(--cream)" }}>
+        <div style={{ padding: "4rem 2.5rem 3rem", background: "linear-gradient(135deg, rgba(232,168,64,0.05) 0%, var(--cream) 60%)" }}>
           <SectionLabel>Master Finance & Trading</SectionLabel>
           <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "clamp(2.2rem,5vw,3.5rem)", fontWeight: 700, lineHeight: 1.15, marginBottom: "1rem", letterSpacing: "-.01em" }}>
             Master Finance, Crypto & Trading
@@ -650,7 +647,7 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   });
 
   return (
-    <div style={{ padding: "2.5rem" }}>
+    <div style={{ padding: "2.5rem", background: "var(--cream)", minHeight: "100vh" }}>
       <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>{filtered.length} courses across {new Set(filtered.map((c) => c.category)).size} disciplines</p>
 
@@ -714,7 +711,7 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
   }
 
   return (
-    <div>
+    <div style={{ background: "var(--cream)", minHeight: "100vh" }}>
       <button onClick={() => setPage("courses")} style={{ display: "flex", alignItems: "center", gap: ".4rem", fontSize: ".85rem", color: "var(--text2)", padding: "1.25rem 2.5rem", borderBottom: "1px solid var(--border)", background: "var(--cream2)", width: "100%", cursor: "pointer" }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5m7-7-7 7 7 7" /></svg>
         All courses
