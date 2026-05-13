@@ -431,7 +431,7 @@ function CourseCard({ course, enrolled, progress, onClick }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      style={{ background: hovered ? "var(--cream2)" : "var(--white)", padding: "1.75rem", cursor: "pointer", transition: "all .18s", position: "relative", borderBottom: "1px solid var(--border)", borderRight: "1px solid var(--border)", boxShadow: hovered ? "inset 0 0 40px rgba(232,168,64,0.05)" : "none" }}>
+      style={{ background: hovered ? "var(--cream2)" : "var(--white)", padding: "1.75rem", cursor: "pointer", transition: "all .18s", position: "relative", boxShadow: hovered ? "inset 0 0 40px rgba(232,168,64,0.05)" : "none" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--terra),rgba(232,168,64,0.3),transparent)" }} />
       <CategoryBadge cat={course.category} />
       <div style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, marginBottom: ".3rem", lineHeight: 1.3, letterSpacing: "-.01em", color: "var(--text)" }}>{course.title}</div>
@@ -573,7 +573,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
       <div style={{ padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <SectionLabel>Browse by Topic</SectionLabel>
         <SectionTitle style={{ marginBottom: "2rem" }}>Find your path</SectionTitle>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden", border: "1px solid var(--border)" }}>
           {LEARNING_PATHS.map((path) => (
             <LearningPathCard key={path.name} path={path} onClick={() => setPage("courses")} />
           ))}
@@ -591,7 +591,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             View all courses
           </button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden", border: "1px solid var(--border)" }}>
           {COURSES.slice(0, 4).map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); }} />
@@ -679,7 +679,7 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           <div style={{ fontSize: ".85rem" }}>Try a different filter or search term.</div>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden", border: "1px solid var(--border)" }}>
           {filtered.map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); setPage("detail"); }} />
@@ -928,7 +928,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
   const COURSE_ICONS = ["📖", "💻", "📊", "📈", "💰", "🐍"];
 
   return (
-    <div style={{ padding: "2.5rem", maxWidth: 900 }}>
+    <div style={{ padding: "2.5rem" }}>
       <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>My Learning</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>Track your progress and continue where you left off.</p>
 
@@ -951,7 +951,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             <img src={LOGO_SRC} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)", marginBottom: ".5rem" }}>No courses yet</h3>
-          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll your first course.</p>
+          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll  your first course.</p>
           <Btn onClick={() => setPage("courses")}>Browse Courses</Btn>
         </div>
       ) : (
