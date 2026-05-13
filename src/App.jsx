@@ -27,12 +27,15 @@ const GLOBAL_CSS = `
     --sans:'Inter',system-ui,sans-serif;
     --r:8px;--rl:12px;
   }
-  html{height:100%;font-size:15px}
+  html{height:100%;font-size:15px;width:100%;overflow-x:hidden}
   body{
     background:var(--cream);
     color:var(--text);
     font-family:var(--sans);
     min-height:100%;
+    width:100%;
+    margin:0;
+    overflow-x:hidden;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     background-image:
@@ -40,6 +43,7 @@ const GLOBAL_CSS = `
       radial-gradient(ellipse 60% 40% at 90% 100%, rgba(180,100,255,0.05) 0%, transparent 50%);
     background-attachment:fixed;
   }
+  #root{width:100%;overflow-x:hidden}
   ::-webkit-scrollbar{width:6px}
   ::-webkit-scrollbar-track{background:var(--cream2)}
   ::-webkit-scrollbar-thumb{background:rgba(232,168,64,0.3);border-radius:99px}
@@ -565,7 +569,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
         </div>
       </div>
 
-      {/* Learning Paths — border removed, gap creates internal dividers */}
+      {/* Learning Paths */}
       <div style={{ padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <SectionLabel>Browse by Topic</SectionLabel>
         <SectionTitle style={{ marginBottom: "2rem" }}>Find your path</SectionTitle>
@@ -576,7 +580,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
         </div>
       </div>
 
-      {/* Featured Courses — border removed */}
+      {/* Featured Courses */}
       <div style={{ padding: "4rem 2.5rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem" }}>
           <div>
@@ -675,7 +679,6 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           <div style={{ fontSize: ".85rem" }}>Try a different filter or search term.</div>
         </div>
       ) : (
-        /* Courses grid — border removed */
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
           {filtered.map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
@@ -948,7 +951,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             <img src={LOGO_SRC} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)", marginBottom: ".5rem" }}>No courses yet</h3>
-          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll into your first course.</p>
+          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll your first course.</p>
           <Btn onClick={() => setPage("courses")}>Browse Courses</Btn>
         </div>
       ) : (
