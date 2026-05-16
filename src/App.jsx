@@ -488,7 +488,7 @@ function Footer() {
             <img src={LOGO_SRC} alt="" style={{ width: 22, height: 22, objectFit: "contain", borderRadius: 3 }} />
             YouLearn
           </div>
-          <p style={{ fontSize: ".82rem", color: "var(--text3)", lineHeight: 1.55 }}>Expert led courses on crypto, forex, trading, and personal finance.</p>
+          <p style={{ fontSize: ".82rem", color: "var(--text3)", lineHeight: 1.55 }}> Expert led courses on crypto, forex, trading, and personal finance.</p>
         </div>
         {[["Learn", ["All Courses", "My Learning"]], ["Community", ["Blog", "Forum"]], ["Company", ["About", "Contact", "Privacy"]]].map(([section, links]) => (
           <div key={section}>
