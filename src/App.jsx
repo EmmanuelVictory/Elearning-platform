@@ -1,34 +1,55 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 
-//  Assets
 const LOGO_SRC =
   "data:image/webp;base64,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";
 
-// Styles
 const GLOBAL_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
-    --cream:#F5F0E8;--cream2:#EDE8DF;--cream3:#E5DFD4;--white:#fff;
-    --text:#1C1C1C;--text2:#4A4A4A;--text3:#7A7A7A;
-    --terra:#C0503A;--terra2:#A8422E;--terra-light:#F2E8E5;--terra-mid:#E8C4BC;
-    --border:#D8D2C8;--border2:#C8C2B8;--gold:#D4A847;
+    --cream:#0F1117;
+    --cream2:#141720;
+    --cream3:#1C2030;
+    --white:#181C27;
+    --text:#F0EDE8;
+    --text2:#B8B4AE;
+    --text3:#7A7880;
+    --terra:#E8A840;
+    --terra2:#CF9230;
+    --terra-light:rgba(232,168,64,0.12);
+    --terra-mid:rgba(232,168,64,0.28);
+    --border:rgba(255,255,255,0.07);
+    --border2:rgba(255,255,255,0.13);
+    --gold:#E8A840;
+    --glow-gold:rgba(232,168,64,0.18);
+    --glow-strong:rgba(232,168,64,0.35);
     --serif:'Playfair Display',Georgia,serif;
     --sans:'Inter',system-ui,sans-serif;
     --r:8px;--rl:12px;
   }
-  html{height:100%;font-size:15px}
-  body{background:var(--cream);color:var(--text);font-family:var(--sans);min-height:100%;line-height:1.6;-webkit-font-smoothing:antialiased}
+  html{height:100%;font-size:15px;width:100%;overflow-x:hidden}
+  body{
+    background:var(--cream);
+    color:var(--text);
+    font-family:var(--sans);
+    min-height:100%;
+    width:100%;
+    margin:0;
+    overflow-x:hidden;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  #root{width:100%;overflow-x:hidden}
   ::-webkit-scrollbar{width:6px}
   ::-webkit-scrollbar-track{background:var(--cream2)}
-  ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+  ::-webkit-scrollbar-thumb{background:rgba(232,168,64,0.3);border-radius:99px}
   button{font-family:inherit;cursor:pointer;border:none;background:none}
   input{font-family:inherit}
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   @keyframes barBounce{0%,100%{transform:scaleY(.2)}50%{transform:scaleY(1)}}
+  @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(232,168,64,0.15)}50%{box-shadow:0 0 40px rgba(232,168,64,0.3)}}
 `;
 
-// Data 
 const COURSES = [
   {
     id: "crypto-fundamentals",
@@ -43,7 +64,7 @@ const COURSES = [
       "Go from zero to confidently navigating Bitcoin, Ethereum, and the broader crypto ecosystem.",
     longDesc:
       "Understand the blockchain technology behind Bitcoin, how Ethereum enables smart contracts, how wallets and keys work, and how to evaluate projects before putting any money in.",
-    color: "#030302",
+    color: "#1A1400",
     modules: [
       {
         name: "Blockchain Basics",
@@ -81,7 +102,7 @@ const COURSES = [
     level: "Intermediate",
     description: "Learn to trade the world's largest financial market — currencies, pairs, and proven strategies.",
     longDesc: "The foreign exchange market turns over $7 trillion a day. This course teaches you how currency pairs work, how to read economic data that moves markets, and how professional traders manage risk.",
-    color: "#000000",
+    color: "#0A0F1A",
     modules: [
       {
         name: "Forex Foundations",
@@ -120,7 +141,7 @@ const COURSES = [
     level: "Beginner",
     description: "Build long-term wealth through stocks — fundamentals, valuation, and portfolio construction.",
     longDesc: "From understanding financial statements to valuing companies and building a diversified portfolio, this course gives you the foundations of equity investing used by professional fund managers.",
-    color: "#000000",
+    color: "#0A1A0E",
     modules: [
       {
         name: "Market Fundamentals",
@@ -158,7 +179,7 @@ const COURSES = [
     level: "Intermediate",
     description: "Master chart reading, patterns, and indicators to time entries and exits with confidence.",
     longDesc: "Technical analysis is the language of price action. This course teaches you how to read charts, identify high-probability patterns, and use indicators intelligently — applicable to stocks, forex, and crypto alike.",
-    color: "#000000",
+    color: "#1A0A14",
     modules: [
       {
         name: "Price Action Foundations",
@@ -195,7 +216,7 @@ const COURSES = [
     level: "All levels",
     description: "Take control of your money — budgeting, debt, savings, and building real long-term wealth.",
     longDesc: "Most people were never taught how money actually works. This course fixes that — from building an emergency fund and eliminating high-interest debt to understanding compound interest and investing for retirement.",
-    color: "#000000",
+    color: "#0A1420",
     modules: [
       {
         name: "Money Foundations",
@@ -226,7 +247,7 @@ const COURSES = [
     level: "Intermediate",
     description: "Explore decentralised finance — lending protocols, DEXs, yield farming, and the future of money.",
     longDesc: "DeFi has rebuilt banking, lending, and trading on open permissionless blockchains. From Uniswap and Aave to liquidity pools, impermanent loss, and governance tokens — navigate the space with confidence.",
-    color: "#000100",
+    color: "#140A1A",
     modules: [
       {
         name: "DeFi Fundamentals",
@@ -258,19 +279,18 @@ const LEARNING_PATHS = [
   { emoji: "📊", name: "Technical Analysis", count: "29 courses", cat: "Trading" },
   { emoji: "💰", name: "Personal Finance", count: "41 courses", cat: "Personal Finance" },
   { emoji: "🎯", name: "Options Trading", count: "23 courses", cat: "Trading" },
-  { emoji: "🎯", name: "Trading Awareness ", count: "23 courses", cat: "Trading" },
-  { emoji: "🎯", name: "Prospective  Trading", count: "23 courses", cat: "Trading" },
-  { emoji: "🎯", name: "Futuristic  Trading", count: "23 courses", cat: "Trading" },
-  { emoji: "🎯", name: "Cordinating Finance", count: "23 courses", cat: "Trading" },
+  { emoji: "🎯", name: "Trading Awareness", count: "23 courses", cat: "Trading" },
+  { emoji: "🎯", name: "Prospective Trading", count: "23 courses", cat: "Trading" },
+  { emoji: "🎯", name: "Futuristic Trading", count: "23 courses", cat: "Trading" },
+  { emoji: "🎯", name: "Coordinating Finance", count: "23 courses", cat: "Trading" },
 ];
 
 const TESTIMONIALS = [
-  { quote: "The Crypto Fundamentals course gave me the confidence to actually invest. I went from totally confused to holding my first Bitcoin within a week.", name: "Priya Mehta", role: "First-time crypto investor", initials: "PM" },
-  { quote: "I went from knowing nothing about forex to making my first consistent profitable trades in 3 months. The risk management lessons alone are worth it.", name: "Tom Eriksson", role: "Part-time forex trader", initials: "TE" },
-  { quote: "The Stock Market Investing course changed how I think about money entirely. I've built a proper portfolio for the first time in my life.", name: "Clara Dubois", role: "Long-term investor", initials: "CD" },
+  { quote: "The Crypto Fundamentals course gave me the confidence to actually invest. I went from totally confused to making millions every month.", name: "Priya Mehta", role: "Crypto investor", initials: "PM" },
+  { quote: "I went from knowing nothing about forex to making consistent profitable trades in 3 months. The risk management lessons alone are worth it.", name: "Tom Eriksson", role: "Part-time forex trader", initials: "TE" },
+  { quote: "The Stock Market Investing course changed how I think about money entirely. I have built a proper portfolio which I must say I am very proud of.", name: "Clara Dubois", role: "Long-term investor", initials: "CD" },
 ];
 
-//  Helpers
 const parseDuration = (str = "0:00") => {
   const [m, s] = str.split(":").map(Number);
   return (m || 0) * 60 + (s || 0);
@@ -283,7 +303,6 @@ const formatTime = (secs) => {
 
 const getAllLessons = (course) => course.modules.flatMap((m) => m.lessons);
 
-// Hooks 
 function useEnrollments() {
   const [enrollments, setEnrollments] = useState({});
 
@@ -359,12 +378,11 @@ function useToast() {
   return { toast, show };
 }
 
-//  Shared UI Components 
 function Toast({ toast }) {
   if (!toast) return null;
-  const dot = { green: "#4caf7d", gold: "#d4a847", red: "#e05c5c" }[toast.type] ?? "#4caf7d";
+  const dot = { green: "#4caf7d", gold: "#e8a840", red: "#e05c5c" }[toast.type] ?? "#4caf7d";
   return (
-    <div key={toast.k} style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", alignItems: "center", gap: ".6rem", background: "var(--text)", color: "#fff", borderRadius: "var(--r)", padding: ".8rem 1.2rem", fontSize: ".82rem", boxShadow: "0 4px 20px rgba(0,0,0,.2)", maxWidth: 300, animation: "fadeUp .25s ease both" }}>
+    <div key={toast.k} style={{ position: "fixed", bottom: "2rem", right: "2rem", zIndex: 9999, display: "flex", alignItems: "center", gap: ".6rem", background: "#1C2030", color: "var(--text)", border: "1px solid rgba(232,168,64,0.3)", borderRadius: "var(--r)", padding: ".8rem 1.2rem", fontSize: ".82rem", boxShadow: "0 4px 30px rgba(232,168,64,0.2)", maxWidth: 300, animation: "fadeUp .25s ease both" }}>
       <span style={{ width: ".45rem", height: ".45rem", borderRadius: "50%", background: dot, flexShrink: 0 }} />
       {toast.msg}
     </div>
@@ -382,7 +400,7 @@ function CategoryBadge({ cat }) {
 function ProgressBar({ pct, height = 3, style = {} }) {
   return (
     <div style={{ height, background: "var(--cream3)", borderRadius: 2, overflow: "hidden", ...style }}>
-      <div style={{ height: "100%", width: `${pct}%`, background: "var(--terra)", borderRadius: 2, transition: "width .5s" }} />
+      <div style={{ height: "100%", width: `${pct}%`, background: "linear-gradient(90deg,var(--terra),#F0C060)", borderRadius: 2, transition: "width .5s" }} />
     </div>
   );
 }
@@ -390,8 +408,8 @@ function ProgressBar({ pct, height = 3, style = {} }) {
 function Btn({ children, onClick, variant = "primary", style = {} }) {
   const base = { fontSize: ".9rem", fontWeight: 500, padding: ".7rem 1.4rem", borderRadius: "var(--r)", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: ".4rem", border: "none" };
   const variants = {
-    primary: { background: "var(--terra)", color: "#f7f1f1" },
-    secondary: { background: "var(--white)", color: "var(--text)", border: "1px solid var(--border)" },
+    primary: { background: "var(--terra)", color: "#0F1117", boxShadow: "0 0 20px rgba(232,168,64,0.3)" },
+    secondary: { background: "var(--cream2)", color: "var(--text)", border: "1px solid var(--border2)" },
     outline: { background: "transparent", color: "var(--terra)", border: "1px solid var(--terra)" },
   };
   return <button onClick={onClick} style={{ ...base, ...variants[variant], ...style }}>{children}</button>;
@@ -402,18 +420,17 @@ function SectionLabel({ children }) {
 }
 
 function SectionTitle({ children, style = {} }) {
-  return <div style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.6rem,3vw,2.2rem)", fontWeight: 700, letterSpacing: "-.01em", ...style }}>{children}</div>;
+  return <div style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.6rem,3vw,2.2rem)", fontWeight: 700, letterSpacing: "-.01em", color: "var(--text)", ...style }}>{children}</div>;
 }
 
-//  Course Card 
 function CourseCard({ course, enrolled, progress, onClick }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      style={{ background: hovered ? "var(--cream)" : "var(--white)", padding: "1.75rem", cursor: "pointer", transition: "background .18s", position: "relative", borderBottom: "1px solid var(--border)", borderRight: "1px solid var(--border)" }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(90deg,var(--terra),var(--gold))" }} />
+      style={{ background: hovered ? "var(--cream2)" : "var(--white)", padding: "1.75rem", cursor: "pointer", transition: "all .18s", position: "relative", boxShadow: hovered ? "inset 0 0 40px rgba(232,168,64,0.05)" : "none" }}>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--terra),rgba(232,168,64,0.3),transparent)" }} />
       <CategoryBadge cat={course.category} />
-      <div style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, marginBottom: ".3rem", lineHeight: 1.3, letterSpacing: "-.01em" }}>{course.title}</div>
+      <div style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, marginBottom: ".3rem", lineHeight: 1.3, letterSpacing: "-.01em", color: "var(--text)" }}>{course.title}</div>
       <div style={{ fontSize: ".82rem", color: "var(--text3)", marginBottom: ".5rem" }}>by {course.instructor}</div>
       <div style={{ fontSize: ".82rem", color: "var(--text2)", lineHeight: 1.55, marginBottom: "1rem" }}>{course.description}</div>
       {enrolled && (
@@ -431,20 +448,19 @@ function CourseCard({ course, enrolled, progress, onClick }) {
   );
 }
 
-//  Navbar 
 function Navbar({ page, setPage, enrollCount }) {
   return (
-    <nav style={{ position: "sticky", top: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", height: 64, background: "var(--cream)", borderBottom: "1px solid var(--border)" }}>
-      <div onClick={() => setPage("home")} style={{ display: "flex", alignItems: "center", gap: ".5rem", fontFamily: "var(--serif)", fontSize: "1.25rem", fontWeight: 600, cursor: "pointer" }}>
+    <nav style={{ position: "sticky", top: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", height: 64, background: "rgba(15,17,23,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid rgba(232,168,64,0.12)", boxShadow: "0 1px 30px rgba(0,0,0,0.5)" }}>
+      <div onClick={() => setPage("home")} style={{ display: "flex", alignItems: "center", gap: ".5rem", fontFamily: "var(--serif)", fontSize: "1.25rem", fontWeight: 600, cursor: "pointer", color: "var(--text)" }}>
         <img src={LOGO_SRC} alt="YouLearn" style={{ width: 36, height: 36, objectFit: "contain", borderRadius: 4 }} />
         YouLearn
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
         {[["courses", "Courses"], ["mylearning", "My Learning"]].map(([key, label]) => (
-          <span key={key} onClick={() => setPage(key)} style={{ fontSize: ".88rem", fontWeight: page === key ? 500 : 400, color: page === key ? "var(--text)" : "var(--text2)", cursor: "pointer", position: "relative" }}>
+          <span key={key} onClick={() => setPage(key)} style={{ fontSize: ".88rem", fontWeight: page === key ? 500 : 400, color: page === key ? "var(--terra)" : "var(--text2)", cursor: "pointer", position: "relative" }}>
             {label}
             {key === "mylearning" && enrollCount > 0 && (
-              <span style={{ position: "absolute", top: -6, right: -14, background: "var(--terra)", color: "#fff", fontSize: ".55rem", fontWeight: 700, width: 16, height: 16, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{enrollCount}</span>
+              <span style={{ position: "absolute", top: -6, right: -14, background: "var(--terra)", color: "#0F1117", fontSize: ".55rem", fontWeight: 700, width: 16, height: 16, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>{enrollCount}</span>
             )}
           </span>
         ))}
@@ -463,13 +479,12 @@ function Navbar({ page, setPage, enrollCount }) {
   );
 }
 
-//  Footer 
 function Footer() {
   return (
-    <footer style={{ background: "var(--cream)", borderTop: "1px solid var(--border)", padding: "3rem 2.5rem 2rem" }}>
+    <footer style={{ background: "var(--cream2)", borderTop: "1px solid rgba(232,168,64,0.1)", padding: "3rem 2.5rem 2rem" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1.5fr repeat(3,1fr)", gap: "3rem", marginBottom: "2rem" }}>
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", fontFamily: "var(--serif)", fontSize: "1.1rem", fontWeight: 600, marginBottom: ".75rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", fontFamily: "var(--serif)", fontSize: "1.1rem", fontWeight: 600, marginBottom: ".75rem", color: "var(--text)" }}>
             <img src={LOGO_SRC} alt="" style={{ width: 22, height: 22, objectFit: "contain", borderRadius: 3 }} />
             YouLearn
           </div>
@@ -477,7 +492,7 @@ function Footer() {
         </div>
         {[["Learn", ["All Courses", "My Learning"]], ["Community", ["Blog", "Forum"]], ["Company", ["About", "Contact", "Privacy"]]].map(([section, links]) => (
           <div key={section}>
-            <h4 style={{ fontSize: ".82rem", fontWeight: 600, marginBottom: ".75rem" }}>{section}</h4>
+            <h4 style={{ fontSize: ".82rem", fontWeight: 600, marginBottom: ".75rem", color: "var(--text)" }}>{section}</h4>
             {links.map((l) => <div key={l} style={{ fontSize: ".82rem", color: "var(--text3)", marginBottom: ".5rem", cursor: "pointer" }}>{l}</div>)}
           </div>
         ))}
@@ -489,27 +504,44 @@ function Footer() {
   );
 }
 
-//  Home Page 
 function LearningPathCard({ path, onClick }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      style={{ background: hovered ? "var(--cream)" : "var(--white)", padding: "2rem 1.75rem", cursor: "pointer", transition: "background .18s" }}>
+      style={{ background: hovered ? "var(--cream2)" : "var(--white)", padding: "2rem 1.75rem", cursor: "pointer", transition: "all .18s", boxShadow: hovered ? "inset 0 0 30px rgba(232,168,64,0.08)" : "none" }}>
       <div style={{ fontSize: "2.2rem", marginBottom: "1.25rem" }}>{path.emoji}</div>
-      <div style={{ fontFamily: "var(--serif)", fontSize: "1.1rem", fontWeight: 600, marginBottom: ".25rem" }}>{path.name}</div>
+      <div style={{ fontFamily: "var(--serif)", fontSize: "1.1rem", fontWeight: 600, marginBottom: ".25rem", color: "var(--text)" }}>{path.name}</div>
       <div style={{ fontSize: ".82rem", color: "var(--text3)" }}>{path.count}</div>
+    </div>
+  );
+}
+
+// KEY FIX: Grid wrapper without outer border — only uses background gap trick for internal dividers
+function GridWrapper({ children, cols = "1fr 1fr", style = {} }) {
+  return (
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: cols,
+      gap: "1px",
+      background: "var(--border)",
+      borderRadius: "var(--rl)",
+      overflow: "hidden",
+      // No border here — that was causing the vertical lines on left & right edges
+      ...style
+    }}>
+      {children}
     </div>
   );
 }
 
 function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   return (
-    <div>
+    <div style={{ background: "var(--cream)" }}>
       {/* Hero */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 480 }}>
-        <div style={{ padding: "4rem 2.5rem 3rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 480, background: "var(--cream)" }}>
+        <div style={{ padding: "4rem 2.5rem 3rem", background: "linear-gradient(135deg, rgba(232,168,64,0.05) 0%, var(--cream) 60%)" }}>
           <SectionLabel>Master Finance & Trading</SectionLabel>
-          <h1 style={{ color: "var(--text1)", fontFamily: "var(--serif)", fontSize: "clamp(2.2rem,5vw,3.5rem)", fontWeight: 700, lineHeight: 1.15, marginBottom: "1rem", letterSpacing: "-.01em",}}>
+          <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "clamp(2.2rem,5vw,3.5rem)", fontWeight: 700, lineHeight: 1.15, marginBottom: "1rem", letterSpacing: "-.01em" }}>
             Master Finance, Crypto & Trading
           </h1>
           <p style={{ fontSize: "1rem", color: "var(--text2)", lineHeight: 1.65, maxWidth: "32rem", marginBottom: "2rem" }}>
@@ -522,28 +554,29 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           <div style={{ display: "flex", gap: "2.5rem", marginTop: "2.5rem", paddingTop: "2rem", borderTop: "1px solid var(--border)" }}>
             {[["180+", "Courses"], ["64", "Instructors"], ["4.8", "Avg. Rating"]].map(([val, lbl]) => (
               <div key={lbl}>
-                <span style={{ fontFamily: "var(--serif)", fontSize: "1.8rem", fontWeight: 600, display: "block", marginBottom: ".15rem" }}>{val}</span>
+                <span style={{ fontFamily: "var(--serif)", fontSize: "1.8rem", fontWeight: 600, display: "block", marginBottom: ".15rem", color: "var(--terra)" }}>{val}</span>
                 <span style={{ fontSize: ".78rem", color: "var(--text3)" }}>{lbl}</span>
               </div>
             ))}
           </div>
         </div>
-        <div style={{ overflow: "hidden", minHeight: 480 }}>
+        <div style={{ overflow: "hidden", minHeight: 480, position: "relative" }}>
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(15,17,23,0.6) 0%, transparent 40%)", zIndex: 1 }} />
           <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900&q=80&fit=crop" alt="Finance trading"
-            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block", minHeight: 480 }}
-            onError={(e) => { e.target.parentElement.style.background = "#2d4a2d"; e.target.style.display = "none"; }} />
+            style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block", minHeight: 480, filter: "brightness(0.7)" }}
+            onError={(e) => { e.target.parentElement.style.background = "#1A1400"; e.target.style.display = "none"; }} />
         </div>
       </div>
 
       {/* Banner */}
       <div style={{ width: "100%", height: 280, overflow: "hidden", position: "relative" }}>
         <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1400&q=80&fit=crop" alt="Financial markets"
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", display: "block" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%", display: "block", filter: "brightness(0.4) saturate(0.8)" }}
           onError={(e) => (e.target.style.display = "none")} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(0,0,0,.55),rgba(0,0,0,.2) 60%,transparent)", display: "flex", alignItems: "center", padding: "0 2.5rem" }}>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(232,168,64,0.15),rgba(0,0,0,0.3) 60%,transparent)", display: "flex", alignItems: "center", padding: "0 2.5rem" }}>
           <div>
-            <div style={{ fontSize: ".72rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "rgba(255,255,255,.75)", marginBottom: ".5rem" }}>250+ Courses</div>
-            <div style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.4rem,3vw,2.2rem)", color: "#fff", fontWeight: 700, lineHeight: 1.2, maxWidth: "30rem" }}>
+            <div style={{ fontSize: ".72rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--terra)", marginBottom: ".5rem" }}>250+ Courses</div>
+            <div style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.4rem,3vw,2.2rem)", color: "#fff", fontWeight: 700, lineHeight: 1.2, maxWidth: "30rem", textShadow: "0 0 40px rgba(232,168,64,0.3)" }}>
               Start your journey to financial independence
             </div>
           </div>
@@ -551,14 +584,15 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
       </div>
 
       {/* Learning Paths */}
-      <div style={{ padding: "4rem 2.5rem", background: "var(--white)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <SectionLabel>Browse by Topic</SectionLabel>
         <SectionTitle style={{ marginBottom: "2rem" }}>Find your path</SectionTitle>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: "1px", background: "var(--border)", border: "1px solid var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        {/* FIXED: removed outer border prop */}
+        <GridWrapper cols="repeat(auto-fill,minmax(200px,1fr))">
           {LEARNING_PATHS.map((path) => (
             <LearningPathCard key={path.name} path={path} onClick={() => setPage("courses")} />
           ))}
-        </div>
+        </GridWrapper>
       </div>
 
       {/* Featured Courses */}
@@ -568,30 +602,32 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             <SectionLabel>Featured Courses</SectionLabel>
             <SectionTitle>Popular right now</SectionTitle>
           </div>
-          <button onClick={() => setPage("courses")} style={{ fontSize: ".83rem", color: "var(--text2)", border: "1px solid var(--border)", padding: ".4rem .9rem", borderRadius: "var(--r)", cursor: "pointer", background: "var(--white)" }}>
+          <button onClick={() => setPage("courses")} style={{ fontSize: ".83rem", color: "var(--text2)", border: "1px solid var(--border2)", padding: ".4rem .9rem", borderRadius: "var(--r)", cursor: "pointer", background: "var(--white)" }}>
             View all courses
           </button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", border: "1px solid var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        {/* FIXED: removed outer border prop */}
+        <GridWrapper>
           {COURSES.slice(0, 4).map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
-              onClick={() => { setSelectedCourse(course.id); setPage("detail"); }} />
+              onClick={() => { setSelectedCourse(course.id); }} />
           ))}
-        </div>
+        </GridWrapper>
       </div>
 
       {/* Testimonials */}
-      <div style={{ padding: "4rem 2.5rem", background: "var(--white)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <SectionLabel>What Learners Say</SectionLabel>
         <SectionTitle style={{ marginBottom: "2rem" }}>Stories from our community</SectionTitle>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1.5rem" }}>
           {TESTIMONIALS.map((t) => (
-            <div key={t.initials} style={{ background: "var(--cream)", border: "1px solid var(--border)", borderRadius: "var(--rl)", padding: "1.5rem" }}>
+            <div key={t.initials} style={{ background: "var(--cream3)", border: "1px solid var(--border)", borderRadius: "var(--rl)", padding: "1.5rem", position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg,var(--terra),transparent)" }} />
               <p style={{ fontSize: ".88rem", color: "var(--text2)", lineHeight: 1.65, marginBottom: "1.25rem", fontStyle: "italic" }}>"{t.quote}"</p>
               <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
                 <div style={{ width: 36, height: 36, borderRadius: "50%", background: "var(--terra-light)", border: "1px solid var(--terra-mid)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: ".72rem", fontWeight: 600, color: "var(--terra)", flexShrink: 0 }}>{t.initials}</div>
                 <div>
-                  <div style={{ fontSize: ".85rem", fontWeight: 600 }}>{t.name}</div>
+                  <div style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--text)" }}>{t.name}</div>
                   <div style={{ fontSize: ".75rem", color: "var(--text3)" }}>{t.role}</div>
                 </div>
               </div>
@@ -601,12 +637,12 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
       </div>
 
       {/* CTA */}
-      <div style={{ textAlign: "center", padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)" }}>
-        <h2 style={{ fontFamily: "var(--serif)", fontSize: "clamp(1.8rem,3.5vw,2.5rem)", fontWeight: 700, marginBottom: "1rem", letterSpacing: "-.01em" }}>
+      <div style={{ textAlign: "center", padding: "4rem 2.5rem", background: "linear-gradient(135deg, rgba(232,168,64,0.08) 0%, var(--cream) 50%, rgba(100,50,255,0.05) 100%)", borderTop: "1px solid rgba(232,168,64,0.15)" }}>
+        <h2 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "clamp(1.8rem,3.5vw,2.5rem)", fontWeight: 700, marginBottom: "1rem", letterSpacing: "-.01em" }}>
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
-          Join thousands of traders, investors, and financial learners growing their wealth every day. Your first course is free.
+          Join thousands of traders, investors and financial learners growing their wealth every day. Your first course is free.
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
           <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
@@ -619,7 +655,6 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   );
 }
 
-//  Courses Page
 function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
@@ -631,8 +666,8 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   });
 
   return (
-    <div style={{ padding: "2.5rem" }}>
-      <h1 style={{ fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
+    <div style={{ padding: "2.5rem", background: "var(--cream)", minHeight: "100vh" }}>
+      <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>{filtered.length} courses across {new Set(filtered.map((c) => c.category)).size} disciplines</p>
 
       <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: "2rem", flexWrap: "wrap" }}>
@@ -641,12 +676,12 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
           </svg>
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search finance courses or instructors…"
-            style={{ width: "100%", background: "var(--white)", border: "1px solid var(--border)", color: "var(--text)", fontSize: ".85rem", padding: ".55rem .9rem .55rem 2.4rem", borderRadius: "var(--r)", outline: "none" }} />
+            style={{ width: "100%", background: "var(--white)", border: "1px solid var(--border2)", color: "var(--text)", fontSize: ".85rem", padding: ".55rem .9rem .55rem 2.4rem", borderRadius: "var(--r)", outline: "none" }} />
         </div>
         <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
           {CATEGORIES.map((cat) => (
             <button key={cat} onClick={() => setFilter(cat)}
-              style={{ background: filter === cat ? "var(--terra)" : "var(--white)", color: filter === cat ? "#fff" : "var(--text2)", border: filter === cat ? "1px solid var(--terra)" : "1px solid var(--border)", fontSize: ".82rem", fontWeight: 500, padding: ".42rem .9rem", borderRadius: "99px", cursor: "pointer" }}>
+              style={{ background: filter === cat ? "var(--terra)" : "var(--white)", color: filter === cat ? "#0F1117" : "var(--text2)", border: filter === cat ? "1px solid var(--terra)" : "1px solid var(--border2)", fontSize: ".82rem", fontWeight: 500, padding: ".42rem .9rem", borderRadius: "99px", cursor: "pointer", boxShadow: filter === cat ? "0 0 15px rgba(232,168,64,0.25)" : "none" }}>
               {cat}
             </button>
           ))}
@@ -660,19 +695,19 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           <div style={{ fontSize: ".85rem" }}>Try a different filter or search term.</div>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", border: "1px solid var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        /* FIXED: removed outer border prop */
+        <GridWrapper>
           {filtered.map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); setPage("detail"); }} />
           ))}
-        </div>
+        </GridWrapper>
       )}
       <Footer />
     </div>
   );
 }
 
-// Course Detail Page
 function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, enroll, getProgress, isDone, showToast }) {
   const course = COURSES.find((c) => c.id === courseId);
   if (!course) return null;
@@ -696,42 +731,41 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
   }
 
   return (
-    <div>
-      <button onClick={() => setPage("courses")} style={{ display: "flex", alignItems: "center", gap: ".4rem", fontSize: ".85rem", color: "var(--text2)", padding: "1.25rem 2.5rem", borderBottom: "1px solid var(--border)", background: "var(--white)", width: "100%", cursor: "pointer" }}>
+    <div style={{ background: "var(--cream)", minHeight: "100vh" }}>
+      <button onClick={() => setPage("courses")} style={{ display: "flex", alignItems: "center", gap: ".4rem", fontSize: ".85rem", color: "var(--text2)", padding: "1.25rem 2.5rem", borderBottom: "1px solid var(--border)", background: "var(--cream2)", width: "100%", cursor: "pointer" }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5m7-7-7 7 7 7" /></svg>
         All courses
       </button>
 
-      <div style={{ padding: "2.5rem", background: "var(--white)", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ padding: "2.5rem", background: "var(--cream2)", borderBottom: "1px solid var(--border)" }}>
         <CategoryBadge cat={course.category} />
         <h1 style={{ color: "var(--text2)", fontFamily: "var(--serif)", fontSize: "clamp(1.5rem,3vw,2.2rem)", fontWeight: 700, marginBottom: ".75rem", lineHeight: 1.2, letterSpacing: "-.01em" }}>{course.title}</h1>
         <p style={{ fontSize: ".9rem", color: "var(--text2)", lineHeight: 1.7, maxWidth: "44rem", marginBottom: "1.5rem" }}>{course.longDesc}</p>
         <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
           {[["★", `${course.rating} rating`, "var(--gold)"], ["👥", course.students.toLocaleString()], ["⏱", course.duration], ["📖", `${allLessons.length} lessons`]].map(([icon, val, iconColor]) => (
             <span key={val} style={{ fontSize: ".85rem", color: "var(--text2)" }}>
-              <span style={{ color: iconColor }}>{icon}</span> <strong>{val}</strong>
+              <span style={{ color: iconColor }}>{icon}</span> <strong style={{ color: "var(--text)" }}>{val}</strong>
             </span>
           ))}
         </div>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", alignItems: "start" }}>
-        {/* Curriculum */}
         <div style={{ padding: "2.5rem", borderRight: "1px solid var(--border)" }}>
-          <h2 style={{ fontFamily: "var(--serif)", fontSize: "1.3rem", fontWeight: 700, marginBottom: "1.5rem" }}>Curriculum</h2>
+          <h2 style={{ fontFamily: "var(--serif)", fontSize: "1.3rem", fontWeight: 700, marginBottom: "1.5rem", color: "var(--text)" }}>Curriculum</h2>
           {course.modules.map((mod, mIdx) => {
             const offset = course.modules.slice(0, mIdx).reduce((s, m) => s + m.lessons.length, 0);
             return (
               <div key={mod.name} style={{ marginBottom: "1.5rem" }}>
-                <div style={{ fontFamily: "var(--serif)", fontSize: "1rem", fontWeight: 700, marginBottom: ".25rem" }}>{mod.name}</div>
+                <div style={{ fontFamily: "var(--serif)", fontSize: "1rem", fontWeight: 700, marginBottom: ".25rem", color: "var(--text)" }}>{mod.name}</div>
                 <div style={{ fontSize: ".78rem", color: "var(--text3)", marginBottom: ".75rem" }}>{mod.lessons.length} lesson{mod.lessons.length !== 1 ? "s" : ""}</div>
                 {mod.lessons.map((lesson, lIdx) => {
                   const globalIdx = offset + lIdx;
                   const done = isDone(courseId, globalIdx);
                   return (
                     <div key={lesson.title} onClick={() => handleLessonClick(globalIdx)}
-                      style={{ display: "flex", alignItems: "flex-start", gap: ".9rem", padding: ".65rem 0", borderBottom: "1px solid var(--cream3)", cursor: "pointer" }}>
-                      <div style={{ width: 24, height: 24, borderRadius: "50%", border: `1.5px solid ${done ? "var(--terra)" : "var(--border2)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2, background: done ? "var(--terra-light)" : "transparent" }}>
+                      style={{ display: "flex", alignItems: "flex-start", gap: ".9rem", padding: ".65rem 0", borderBottom: "1px solid var(--border)", cursor: "pointer" }}>
+                      <div style={{ width: 24, height: 24, borderRadius: "50%", border: `1.5px solid ${done ? "var(--terra)" : "var(--border2)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2, background: done ? "var(--terra-light)" : "transparent", boxShadow: done ? "0 0 8px rgba(232,168,64,0.3)" : "none" }}>
                         <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke={done ? "var(--terra)" : "var(--text3)"} strokeWidth="2"><polygon points="5,3 19,12 5,21" /></svg>
                       </div>
                       <div style={{ flex: 1 }}>
@@ -749,11 +783,10 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
           })}
         </div>
 
-        {/* Sidebar */}
         <div style={{ padding: "2rem", position: "sticky", top: 64 }}>
-          <div style={{ background: "var(--cream)", border: "1px solid var(--border)", borderRadius: "var(--rl)", padding: "1.5rem", marginBottom: "1.25rem" }}>
-            <div style={{ fontSize: ".85rem", color: "var(--text2)", marginBottom: ".35rem" }}>Instructor</div>
-            <div style={{ fontFamily: "var(--serif)", fontSize: "1rem", fontWeight: 600, marginBottom: "1.25rem" }}>{course.instructor}</div>
+          <div style={{ background: "var(--cream2)", border: "1px solid rgba(232,168,64,0.15)", borderRadius: "var(--rl)", padding: "1.5rem", marginBottom: "1.25rem", boxShadow: "0 0 30px rgba(232,168,64,0.06)" }}>
+            <div style={{ fontSize: ".85rem", color: "var(--text3)", marginBottom: ".35rem" }}>Instructor</div>
+            <div style={{ fontFamily: "var(--serif)", fontSize: "1rem", fontWeight: 600, marginBottom: "1.25rem", color: "var(--text)" }}>{course.instructor}</div>
 
             {enrolled ? (
               <>
@@ -766,7 +799,7 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
                   <div style={{ fontSize: ".72rem", color: "var(--text3)", marginTop: ".3rem" }}>{enrollment?.completedLessons.length}/{allLessons.length} lessons completed</div>
                 </div>
                 {progress === 100
-                  ? <div style={{ textAlign: "center", padding: ".6rem", background: "rgba(45,122,45,.08)", border: "1px solid rgba(45,122,45,.2)", borderRadius: "var(--r)", fontSize: ".85rem", color: "#2d7a2d", marginBottom: ".6rem" }}>🎓 Certificate earned!</div>
+                  ? <div style={{ textAlign: "center", padding: ".6rem", background: "rgba(232,168,64,0.1)", border: "1px solid rgba(232,168,64,0.25)", borderRadius: "var(--r)", fontSize: ".85rem", color: "var(--terra)", marginBottom: ".6rem" }}>🎓 Certificate earned!</div>
                   : <Btn onClick={handleContinue} style={{ width: "100%", justifyContent: "center" }}>Continue Learning →</Btn>
                 }
               </>
@@ -775,9 +808,9 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
             )}
 
             {[["Duration", course.duration], ["Lessons", allLessons.length], ["Modules", course.modules.length], ["Level", course.level]].map(([label, val]) => (
-              <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: ".6rem 0", borderTop: "1px solid var(--cream3)", fontSize: ".85rem" }}>
+              <div key={label} style={{ display: "flex", justifyContent: "space-between", padding: ".6rem 0", borderTop: "1px solid var(--border)", fontSize: ".85rem" }}>
                 <span style={{ color: "var(--text2)" }}>{label}</span>
-                <span style={{ fontWeight: 500 }}>{val}</span>
+                <span style={{ fontWeight: 500, color: "var(--text)" }}>{val}</span>
               </div>
             ))}
           </div>
@@ -787,7 +820,6 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
   );
 }
 
-//Lesson Player Page 
 function LessonPlayerPage({ lessonState, setLessonIdx, goBack, enrollments, isDone, markComplete, enroll, showToast }) {
   const { courseId, lessonIdx } = lessonState;
   const course = COURSES.find((c) => c.id === courseId);
@@ -820,8 +852,7 @@ function LessonPlayerPage({ lessonState, setLessonIdx, goBack, enrollments, isDo
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "calc(100vh - 64px)" }}>
-      {/* Top bar */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 1.5rem", height: 50, background: "var(--white)", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 1.5rem", height: 50, background: "var(--cream2)", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
         <button onClick={goBack} style={{ display: "flex", alignItems: "center", gap: ".4rem", fontSize: ".82rem", color: "var(--text2)", cursor: "pointer", background: "none", border: "none" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5m7-7-7 7 7 7" /></svg>
           {course.title}
@@ -830,14 +861,12 @@ function LessonPlayerPage({ lessonState, setLessonIdx, goBack, enrollments, isDo
       </div>
 
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
-        {/* Main content */}
         <div style={{ flex: 1, overflowY: "auto", borderRight: "1px solid var(--border)" }}>
-          {/* Video area */}
           <div onClick={togglePlay} style={{ background: course.color, aspectRatio: "16/9", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", cursor: "pointer", overflow: "hidden" }}>
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "7rem", opacity: 0.12, userSelect: "none", pointerEvents: "none" }}>📈</div>
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "7rem", opacity: 0.1, userSelect: "none", pointerEvents: "none" }}>📈</div>
             {!playing && (
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,.12)" }}>
-                <div style={{ width: "5rem", height: "5rem", borderRadius: "50%", background: "rgba(192,80,58,.92)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", color: "#fff", paddingLeft: 4 }}>▶</div>
+              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,.3)" }}>
+                <div style={{ width: "5rem", height: "5rem", borderRadius: "50%", background: "rgba(232,168,64,0.92)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", color: "#0F1117", paddingLeft: 4, boxShadow: "0 0 40px rgba(232,168,64,0.5)" }}>▶</div>
               </div>
             )}
             {playing && (
@@ -847,46 +876,41 @@ function LessonPlayerPage({ lessonState, setLessonIdx, goBack, enrollments, isDo
                     <div key={i} style={{ width: 5, height: "100%", borderRadius: 3, background: "var(--terra)", transformOrigin: "bottom", opacity: 0.85, animation: `barBounce ${0.6 + (i % 4) * 0.13}s ease-in-out ${i * 0.08}s infinite` }} />
                   ))}
                 </div>
-                <span style={{ fontSize: ".68rem", letterSpacing: ".1em", color: "rgba(0,0,0,.4)", textTransform: "uppercase" }}>Now Playing</span>
+                <span style={{ fontSize: ".68rem", letterSpacing: ".1em", color: "rgba(232,168,64,0.6)", textTransform: "uppercase" }}>Now Playing</span>
               </div>
             )}
           </div>
 
-          {/* Progress bar (seekable) */}
           <div onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); seek(((e.clientX - r.left) / r.width) * 100); }}
             style={{ height: 4, background: "var(--cream3)", cursor: "pointer", position: "relative" }}>
-            <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: `${pct}%`, background: "var(--terra)", transition: "width .2s linear", pointerEvents: "none" }} />
+            <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: `${pct}%`, background: "linear-gradient(90deg,var(--terra),#F0C060)", transition: "width .2s linear", pointerEvents: "none" }} />
           </div>
 
-          {/* Controls */}
           <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".65rem 1.4rem", background: "var(--white)", borderBottom: "1px solid var(--border)" }}>
             <button disabled={lessonIdx === 0} onClick={() => navigateLesson(lessonIdx - 1)} style={{ background: "none", border: "none", color: "var(--text3)", fontSize: "1rem", cursor: lessonIdx === 0 ? "default" : "pointer", opacity: lessonIdx === 0 ? 0.3 : 1 }}>⏮</button>
             <button onClick={togglePlay} style={{ background: "none", border: "none", color: "var(--terra)", fontSize: "1.45rem", cursor: "pointer" }}>{playing ? "⏸" : "▶"}</button>
             <button disabled={lessonIdx === allLessons.length - 1} onClick={() => navigateLesson(lessonIdx + 1)} style={{ background: "none", border: "none", color: "var(--text3)", fontSize: "1rem", cursor: lessonIdx === allLessons.length - 1 ? "default" : "pointer", opacity: lessonIdx === allLessons.length - 1 ? 0.3 : 1 }}>⏭</button>
             <span style={{ fontSize: ".72rem", color: "var(--text3)", marginLeft: "auto" }}>{formatTime(elapsed)} / {lesson.dur}</span>
             <button onClick={canComplete && !done ? handleMarkComplete : undefined}
-              style={{ fontSize: ".75rem", fontWeight: 500, padding: ".35rem .85rem", borderRadius: 6, cursor: done || !canComplete ? "default" : "pointer", border: `1px solid ${done || canComplete ? "rgba(45,122,45,.3)" : "var(--border)"}`, background: done || canComplete ? "rgba(45,122,45,.08)" : "transparent", color: done || canComplete ? "#2d7a2d" : "var(--text3)", opacity: canComplete || done ? 1 : 0.4 }}>
+              style={{ fontSize: ".75rem", fontWeight: 500, padding: ".35rem .85rem", borderRadius: 6, cursor: done || !canComplete ? "default" : "pointer", border: `1px solid ${done || canComplete ? "rgba(232,168,64,0.3)" : "var(--border)"}`, background: done || canComplete ? "rgba(232,168,64,0.1)" : "transparent", color: done || canComplete ? "var(--terra)" : "var(--text3)", opacity: canComplete || done ? 1 : 0.4 }}>
               {done ? "✓ Completed" : "Mark complete"}
             </button>
           </div>
 
-          {/* Lesson info */}
           <div style={{ padding: "1.5rem" }}>
-            <h2 style={{ fontFamily: "var(--serif)", fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem", letterSpacing: "-.01em" }}>{lesson.title}</h2>
+            <h2 style={{ fontFamily: "var(--serif)", fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem", letterSpacing: "-.01em", color: "var(--text)" }}>{lesson.title}</h2>
             <p style={{ fontSize: ".875rem", color: "var(--text2)", lineHeight: 1.65, maxWidth: "50rem" }}>{lesson.desc}</p>
           </div>
 
-          {/* Prev / Next nav */}
           <div style={{ display: "flex", justifyContent: "space-between", padding: "1rem 1.5rem", borderTop: "1px solid var(--border)" }}>
             <Btn variant="secondary" onClick={() => navigateLesson(lessonIdx - 1)} style={{ opacity: lessonIdx === 0 ? 0.3 : 1, cursor: lessonIdx === 0 ? "default" : "pointer" }}>← Previous</Btn>
             <Btn onClick={() => navigateLesson(lessonIdx + 1)} style={{ opacity: lessonIdx === allLessons.length - 1 ? 0.3 : 1, cursor: lessonIdx === allLessons.length - 1 ? "default" : "pointer" }}>Next lesson →</Btn>
           </div>
         </div>
 
-        {/* Sidebar lesson list */}
-        <div style={{ width: 300, flexShrink: 0, overflowY: "auto", background: "var(--white)" }}>
-          <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid var(--border)", position: "sticky", top: 0, background: "var(--white)" }}>
-            <div style={{ fontFamily: "var(--serif)", fontSize: ".92rem", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: ".5rem" }}>{course.title}</div>
+        <div style={{ width: 300, flexShrink: 0, overflowY: "auto", background: "var(--cream2)" }}>
+          <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid var(--border)", position: "sticky", top: 0, background: "var(--cream2)" }}>
+            <div style={{ fontFamily: "var(--serif)", fontSize: ".92rem", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: ".5rem", color: "var(--text)" }}>{course.title}</div>
             <ProgressBar pct={progress} style={{ marginBottom: ".3rem" }} />
             <div style={{ fontSize: ".68rem", color: "var(--terra)" }}>{enrollment?.completedLessons.length ?? 0}/{allLessons.length} lessons · {progress}%</div>
           </div>
@@ -896,12 +920,12 @@ function LessonPlayerPage({ lessonState, setLessonIdx, goBack, enrollments, isDo
             const locked = !enrolled && i > 0;
             return (
               <div key={i} onClick={() => navigateLesson(i)}
-                style={{ display: "flex", alignItems: "center", gap: ".75rem", padding: ".8rem 1.25rem", borderBottom: "1px solid var(--cream3)", cursor: locked ? "default" : "pointer", background: isCurrent ? "var(--terra-light)" : "var(--white)", borderLeft: isCurrent ? "3px solid var(--terra)" : "3px solid transparent", paddingLeft: isCurrent ? "calc(1.25rem - 3px)" : "1.25rem", opacity: locked ? 0.35 : 1, transition: "background .16s" }}>
-                <div style={{ width: "1.5rem", height: "1.5rem", borderRadius: "50%", background: lDone ? "var(--terra)" : "var(--cream2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: ".62rem", color: lDone ? "#fff" : "var(--text3)", border: `1px solid ${lDone ? "var(--terra)" : "var(--border)"}`, flexShrink: 0 }}>
+                style={{ display: "flex", alignItems: "center", gap: ".75rem", padding: ".8rem 1.25rem", borderBottom: "1px solid var(--border)", cursor: locked ? "default" : "pointer", background: isCurrent ? "rgba(232,168,64,0.08)" : "transparent", borderLeft: isCurrent ? "3px solid var(--terra)" : "3px solid transparent", paddingLeft: isCurrent ? "calc(1.25rem - 3px)" : "1.25rem", opacity: locked ? 0.35 : 1, transition: "background .16s" }}>
+                <div style={{ width: "1.5rem", height: "1.5rem", borderRadius: "50%", background: lDone ? "var(--terra-light)" : "var(--cream3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: ".62rem", color: lDone ? "var(--terra)" : "var(--text3)", border: `1px solid ${lDone ? "var(--terra-mid)" : "var(--border2)"}`, flexShrink: 0 }}>
                   {lDone ? "✓" : i + 1}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: ".78rem", fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: ".1rem" }}>{l.title}</div>
+                  <div style={{ fontSize: ".78rem", fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginBottom: ".1rem", color: isCurrent ? "var(--terra)" : "var(--text)" }}>{l.title}</div>
                   <div style={{ fontSize: ".65rem", color: "var(--text3)" }}>{l.dur}{locked ? " · 🔒" : ""}</div>
                 </div>
               </div>
@@ -913,7 +937,6 @@ function LessonPlayerPage({ lessonState, setLessonIdx, goBack, enrollments, isDo
   );
 }
 
-//My Learning Page 
 function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollments, getProgress, isDone }) {
   const enrolledIds = Object.keys(enrollments);
   const totalLessonsDone = enrolledIds.reduce((s, id) => s + enrollments[id].completedLessons.length, 0);
@@ -922,32 +945,30 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
   const COURSE_ICONS = ["📖", "💻", "📊", "📈", "💰", "🐍"];
 
   return (
-    <div style={{ padding: "2.5rem", maxWidth: 900 }}>
-      <h1 style={{ fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>My Learning</h1>
+    <div style={{ padding: "2.5rem" }}>
+      <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>My Learning</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>Track your progress and continue where you left off.</p>
 
-      {/* Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "1rem", marginBottom: "2.5rem" }}>
         {[{ icon: <img src={LOGO_SRC} alt="" style={{ width: 28, height: 28, objectFit: "contain" }} />, val: enrolledIds.length, lbl: "Enrolled" },
           { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--terra)" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polygon points="10,8 16,12 10,16" /></svg>, val: totalLessonsDone, lbl: "Lessons done" },
           { icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--terra)" strokeWidth="2"><path d="M8 21h8m-4-4v4M12 3a9 9 0 100 14 9 9 0 000-14z" /></svg>, val: completedCourses, lbl: "Completed" },
         ].map(({ icon, val, lbl }) => (
-          <div key={lbl} style={{ background: "var(--white)", border: "1px solid var(--border)", borderRadius: "var(--rl)", padding: "1.5rem", textAlign: "center" }}>
+          <div key={lbl} style={{ background: "var(--white)", border: "1px solid rgba(232,168,64,0.15)", borderRadius: "var(--rl)", padding: "1.5rem", textAlign: "center", boxShadow: "0 0 20px rgba(232,168,64,0.05)" }}>
             <div style={{ display: "flex", justifyContent: "center", marginBottom: ".5rem" }}>{icon}</div>
-            <div style={{ fontFamily: "var(--serif)", fontSize: "2rem", fontWeight: 700, marginBottom: ".2rem" }}>{val}</div>
+            <div style={{ fontFamily: "var(--serif)", fontSize: "2rem", fontWeight: 700, marginBottom: ".2rem", color: "var(--terra)" }}>{val}</div>
             <div style={{ fontSize: ".78rem", color: "var(--text3)" }}>{lbl}</div>
           </div>
         ))}
       </div>
 
-      {/* Enrolled courses */}
       {enrolledIds.length === 0 ? (
         <div style={{ textAlign: "center", padding: "4rem 2rem", background: "var(--white)", border: "1px solid var(--border)", borderRadius: "var(--rl)", color: "var(--text3)" }}>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: "1rem", opacity: 0.4 }}>
             <img src={LOGO_SRC} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)", marginBottom: ".5rem" }}>No courses yet</h3>
-          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll in your first course.</p>
+          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll into your first course.</p>
           <Btn onClick={() => setPage("courses")}>Browse Courses</Btn>
         </div>
       ) : (
@@ -960,8 +981,8 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             const allLessons = getAllLessons(course);
             const done = enrollment.completedLessons.length;
             const status = progress === 100 ? "Complete" : done > 0 ? "In progress" : "Not started";
-            const statusColor = progress === 100 ? "#2d7a2d" : done > 0 ? "var(--terra)" : "var(--text3)";
-            const statusBg = progress === 100 ? "rgba(45,122,45,.1)" : done > 0 ? "var(--terra-light)" : "var(--cream2)";
+            const statusColor = progress === 100 ? "var(--terra)" : done > 0 ? "var(--terra)" : "var(--text3)";
+            const statusBg = progress === 100 ? "rgba(232,168,64,0.15)" : done > 0 ? "rgba(232,168,64,0.1)" : "var(--cream3)";
             const courseIdx = COURSES.indexOf(course);
 
             function handleClick() {
@@ -974,17 +995,17 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             return (
               <div key={id} onClick={handleClick}
                 style={{ background: "var(--white)", border: "1px solid var(--border)", borderRadius: "var(--rl)", display: "flex", alignItems: "center", gap: "1.25rem", padding: "1rem 1.25rem", cursor: "pointer", transition: "all .18s" }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--border2)"; e.currentTarget.style.background = "var(--cream)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "var(--white)"; }}>
-                <div style={{ width: "3.5rem", height: "3.5rem", borderRadius: "var(--r)", background: course.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", flexShrink: 0 }}>
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(232,168,64,0.25)"; e.currentTarget.style.background = "var(--cream2)"; e.currentTarget.style.boxShadow = "0 0 20px rgba(232,168,64,0.06)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "var(--white)"; e.currentTarget.style.boxShadow = "none"; }}>
+                <div style={{ width: "3.5rem", height: "3.5rem", borderRadius: "var(--r)", background: course.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.6rem", flexShrink: 0, border: "1px solid rgba(232,168,64,0.1)" }}>
                   {COURSE_ICONS[courseIdx % COURSE_ICONS.length]}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: "var(--serif)", fontSize: ".95rem", fontWeight: 600, marginBottom: ".15rem" }}>{course.title}</div>
+                  <div style={{ fontFamily: "var(--serif)", fontSize: ".95rem", fontWeight: 600, marginBottom: ".15rem", color: "var(--text)" }}>{course.title}</div>
                   <div style={{ fontSize: ".75rem", color: "var(--text3)", marginBottom: ".5rem" }}>by {course.instructor}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: ".6rem", marginBottom: ".25rem" }}>
                     <div style={{ flex: 1, height: 3, background: "var(--cream3)", borderRadius: 2, overflow: "hidden" }}>
-                      <div style={{ height: "100%", width: `${progress}%`, background: "var(--terra)", borderRadius: 2, transition: "width .5s" }} />
+                      <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg,var(--terra),#F0C060)", borderRadius: 2, transition: "width .5s" }} />
                     </div>
                     <span style={{ fontSize: ".65rem", color: "var(--terra)", minWidth: "2.5rem", textAlign: "right" }}>{progress}%</span>
                   </div>
@@ -1000,7 +1021,6 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
   );
 }
 
-//  Root App
 export default function App() {
   const [page, setPage] = useState("home");
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -1008,7 +1028,6 @@ export default function App() {
   const { enrollments, enroll, markComplete, getProgress, isDone } = useEnrollments();
   const { toast, show: showToast } = useToast();
 
-  // Inject global styles once
   useEffect(() => {
     const id = "yl-styles";
     if (!document.getElementById(id)) {
@@ -1030,7 +1049,7 @@ export default function App() {
       <Navbar page={page} setPage={navigate} enrollCount={enrollCount} />
 
       {page === "home" && (
-        <HomePage setPage={navigate} setSelectedCourse={setSelectedCourse} enrollments={enrollments} getProgress={getProgress} />
+        <HomePage setPage={navigate} setSelectedCourse={(id) => { setSelectedCourse(id); navigate("detail"); }} enrollments={enrollments} getProgress={getProgress} />
       )}
       {page === "courses" && (
         <CoursesPage setPage={navigate} setSelectedCourse={setSelectedCourse} enrollments={enrollments} getProgress={getProgress} />
