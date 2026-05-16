@@ -286,9 +286,9 @@ const LEARNING_PATHS = [
 ];
 
 const TESTIMONIALS = [
-  { quote: "The Crypto Fundamentals course gave me the confidence to actually invest. I went from totally confused to holding my first Bitcoin within a week.", name: "Priya Mehta", role: "First-time crypto investor", initials: "PM" },
-  { quote: "I went from knowing nothing about forex to making my first consistent profitable trades in 3 months. The risk management lessons alone are worth it.", name: "Tom Eriksson", role: "Part-time forex trader", initials: "TE" },
-  { quote: "The Stock Market Investing course changed how I think about money entirely. I've built a proper portfolio for the first time in my life.", name: "Clara Dubois", role: "Long-term investor", initials: "CD" },
+  { quote: "The Crypto Fundamentals course gave me the confidence to actually invest. I went from totally confused to making millions every month.", name: "Priya Mehta", role: "Crypto investor", initials: "PM" },
+  { quote: "I went from knowing nothing about forex to making consistent profitable trades in 3 months. The risk management lessons alone are worth it.", name: "Tom Eriksson", role: "Part-time forex trader", initials: "TE" },
+  { quote: "The Stock Market Investing course changed how I think about money entirely. I have built a proper portfolio which I must say I am very proud of.", name: "Clara Dubois", role: "Long-term investor", initials: "CD" },
 ];
 
 const parseDuration = (str = "0:00") => {
@@ -642,7 +642,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
-          Join thousands of traders, investors, and financial learners growing their wealth every day. Your first course is free.
+          Join thousands of traders, investors and financial learners growing their wealth every day. Your first course is free.
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
           <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
