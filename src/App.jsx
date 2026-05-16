@@ -488,7 +488,7 @@ function Footer() {
             <img src={LOGO_SRC} alt="" style={{ width: 22, height: 22, objectFit: "contain", borderRadius: 3 }} />
             YouLearn
           </div>
-          <p style={{ fontSize: ".82rem", color: "var(--text3)", lineHeight: 1.55 }}>Expert-led courses on crypto, forex, trading, and personal finance.</p>
+          <p style={{ fontSize: ".82rem", color: "var(--text3)", lineHeight: 1.55 }}>-Expert led courses on crypto, forex, trading, and personal finance.</p>
         </div>
         {[["Learn", ["All Courses", "My Learning"]], ["Community", ["Blog", "Forum"]], ["Company", ["About", "Contact", "Privacy"]]].map(([section, links]) => (
           <div key={section}>
@@ -545,7 +545,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             Master Finance, Crypto & Trading
           </h1>
           <p style={{ fontSize: "1rem", color: "var(--text2)", lineHeight: 1.65, maxWidth: "32rem", marginBottom: "2rem" }}>
-            Join 24,000+ learners mastering cryptocurrency, forex trading, stock investing, and personal finance through expert-crafted courses.
+            Join 24,000+ learners mastering cryptocurrency, forex trading, stock investing and personal finance through expert crafted courses.
           </p>
           <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
             <Btn onClick={() => setPage("courses")}>Explore Courses →</Btn>
@@ -642,7 +642,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
-          Join thousands of traders, investors and financial learners growing their wealth every day. Your first course is free.
+          Join thousands of traders, investors and financial learners growing their wealth every day. 
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
           <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
@@ -968,7 +968,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
             <img src={LOGO_SRC} alt="" style={{ width: 48, height: 48, objectFit: "contain" }} />
           </div>
           <h3 style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, color: "var(--text)", marginBottom: ".5rem" }}>No courses yet</h3>
-          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll into your first course.</p>
+          <p style={{ fontSize: ".85rem", marginBottom: "1.5rem" }}>Explore our catalog and enroll i your first course.</p>
           <Btn onClick={() => setPage("courses")}>Browse Courses</Btn>
         </div>
       ) : (
