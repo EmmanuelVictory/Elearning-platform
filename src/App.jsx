@@ -548,7 +548,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             Join 24,000+ learners mastering cryptocurrency, forex trading, stock investing and personal finance through expert crafted courses.
           </p>
           <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
-            <Btn onClick={() => setPage("courses")}>Explore Courses →</Btn>
+            <Btn onClick={() => setPage("courses")}>Explore Courses</Btn>
             <Btn variant="secondary" onClick={() => setPage("mylearning")}>▶ My Dashboard</Btn>
           </div>
           <div style={{ display: "flex", gap: "2.5rem", marginTop: "2.5rem", paddingTop: "2rem", borderTop: "1px solid var(--border)" }}>
