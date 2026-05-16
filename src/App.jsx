@@ -545,7 +545,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             Master Finance, Crypto & Trading
           </h1>
           <p style={{ fontSize: "1rem", color: "var(--text2)", lineHeight: 1.65, maxWidth: "32rem", marginBottom: "2rem" }}>
-            Join 24,000+ learners mastering cryptocurrency, forex trading, stock investing, and personal finance through expert-crafted courses.
+            Join 24,000+ learners mastering cryptocurrency, forex trading, stock investing, and personal finance through expert crafted courses.
           </p>
           <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
             <Btn onClick={() => setPage("courses")}>Explore Courses →</Btn>
@@ -642,7 +642,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
-          Join thousands of traders, investors and financial learners growing their wealth every day. The course is free.
+          Join thousands of traders, investors and financial learners growing their wealth every day. 
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
           <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
