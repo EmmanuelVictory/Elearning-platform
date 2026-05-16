@@ -27,19 +27,19 @@ const GLOBAL_CSS = `
     --sans:'Inter',system-ui,sans-serif;
     --r:8px;--rl:12px;
   }
-  html{height:100%;font-size:15px}
+  html{height:100%;font-size:15px;width:100%;overflow-x:hidden}
   body{
     background:var(--cream);
     color:var(--text);
     font-family:var(--sans);
     min-height:100%;
+    width:100%;
+    margin:0;
+    overflow-x:hidden;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 10% 0%, rgba(232,168,64,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 100%, rgba(180,100,255,0.05) 0%, transparent 50%);
-    background-attachment:fixed;
   }
+  #root{width:100%;overflow-x:hidden}
   ::-webkit-scrollbar{width:6px}
   ::-webkit-scrollbar-track{background:var(--cream2)}
   ::-webkit-scrollbar-thumb{background:rgba(232,168,64,0.3);border-radius:99px}
@@ -286,9 +286,9 @@ const LEARNING_PATHS = [
 ];
 
 const TESTIMONIALS = [
-  { quote: "The Crypto Fundamentals course gave me the confidence to actually invest. I went from totally confused to holding my first Bitcoin within a week.", name: "Priya Mehta", role: "First-time crypto investor", initials: "PM" },
-  { quote: "I went from knowing nothing about forex to making my first consistent profitable trades in 3 months. The risk management lessons alone are worth it.", name: "Tom Eriksson", role: "Part-time forex trader", initials: "TE" },
-  { quote: "The Stock Market Investing course changed how I think about money entirely. I've built a proper portfolio for the first time in my life.", name: "Clara Dubois", role: "Long-term investor", initials: "CD" },
+  { quote: "The Crypto Fundamentals course gave me the confidence to actually invest. I went from totally confused to making millions every month.", name: "Priya Mehta", role: "Crypto investor", initials: "PM" },
+  { quote: "I went from knowing nothing about forex to making consistent profitable trades in 3 months. The risk management lessons alone are worth it.", name: "Tom Eriksson", role: "Part-time forex trader", initials: "TE" },
+  { quote: "The Stock Market Investing course changed how I think about money entirely. I have built a proper portfolio which I must say I am very proud of.", name: "Clara Dubois", role: "Long-term investor", initials: "CD" },
 ];
 
 const parseDuration = (str = "0:00") => {
@@ -427,7 +427,7 @@ function CourseCard({ course, enrolled, progress, onClick }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      style={{ background: hovered ? "var(--cream2)" : "var(--white)", padding: "1.75rem", cursor: "pointer", transition: "all .18s", position: "relative", borderBottom: "1px solid var(--border)", borderRight: "1px solid var(--border)", boxShadow: hovered ? "inset 0 0 40px rgba(232,168,64,0.05)" : "none" }}>
+      style={{ background: hovered ? "var(--cream2)" : "var(--white)", padding: "1.75rem", cursor: "pointer", transition: "all .18s", position: "relative", boxShadow: hovered ? "inset 0 0 40px rgba(232,168,64,0.05)" : "none" }}>
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg,var(--terra),rgba(232,168,64,0.3),transparent)" }} />
       <CategoryBadge cat={course.category} />
       <div style={{ fontFamily: "var(--serif)", fontSize: "1.15rem", fontWeight: 700, marginBottom: ".3rem", lineHeight: 1.3, letterSpacing: "-.01em", color: "var(--text)" }}>{course.title}</div>
@@ -516,12 +516,30 @@ function LearningPathCard({ path, onClick }) {
   );
 }
 
+// KEY FIX: Grid wrapper without outer border — only uses background gap trick for internal dividers
+function GridWrapper({ children, cols = "1fr 1fr", style = {} }) {
+  return (
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: cols,
+      gap: "1px",
+      background: "var(--border)",
+      borderRadius: "var(--rl)",
+      overflow: "hidden",
+      // No border here — that was causing the vertical lines on left & right edges
+      ...style
+    }}>
+      {children}
+    </div>
+  );
+}
+
 function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   return (
-    <div>
+    <div style={{ background: "var(--cream)" }}>
       {/* Hero */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 480 }}>
-        <div style={{ padding: "4rem 2.5rem 3rem", background: "linear-gradient(135deg, rgba(232,168,64,0.05) 0%, transparent 60%)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 480, background: "var(--cream)" }}>
+        <div style={{ padding: "4rem 2.5rem 3rem", background: "linear-gradient(135deg, rgba(232,168,64,0.05) 0%, var(--cream) 60%)" }}>
           <SectionLabel>Master Finance & Trading</SectionLabel>
           <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "clamp(2.2rem,5vw,3.5rem)", fontWeight: 700, lineHeight: 1.15, marginBottom: "1rem", letterSpacing: "-.01em" }}>
             Master Finance, Crypto & Trading
@@ -565,18 +583,19 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
         </div>
       </div>
 
-      {/* Learning Paths — border removed, gap creates internal dividers */}
+      {/* Learning Paths */}
       <div style={{ padding: "4rem 2.5rem", background: "var(--cream2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <SectionLabel>Browse by Topic</SectionLabel>
         <SectionTitle style={{ marginBottom: "2rem" }}>Find your path</SectionTitle>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(200px,1fr))", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        {/* FIXED: removed outer border prop */}
+        <GridWrapper cols="repeat(auto-fill,minmax(200px,1fr))">
           {LEARNING_PATHS.map((path) => (
             <LearningPathCard key={path.name} path={path} onClick={() => setPage("courses")} />
           ))}
-        </div>
+        </GridWrapper>
       </div>
 
-      {/* Featured Courses — border removed */}
+      {/* Featured Courses */}
       <div style={{ padding: "4rem 2.5rem" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2rem" }}>
           <div>
@@ -587,12 +606,13 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
             View all courses
           </button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        {/* FIXED: removed outer border prop */}
+        <GridWrapper>
           {COURSES.slice(0, 4).map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); }} />
           ))}
-        </div>
+        </GridWrapper>
       </div>
 
       {/* Testimonials */}
@@ -622,7 +642,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
-          Join thousands of traders, investors, and financial learners growing their wealth every day. Your first course is free.
+          Join thousands of traders, investors and financial learners growing their wealth every day. Your first course is free.
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
           <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
@@ -646,7 +666,7 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
   });
 
   return (
-    <div style={{ padding: "2.5rem" }}>
+    <div style={{ padding: "2.5rem", background: "var(--cream)", minHeight: "100vh" }}>
       <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>Explore Courses</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>{filtered.length} courses across {new Set(filtered.map((c) => c.category)).size} disciplines</p>
 
@@ -675,13 +695,13 @@ function CoursesPage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           <div style={{ fontSize: ".85rem" }}>Try a different filter or search term.</div>
         </div>
       ) : (
-        /* Courses grid — border removed */
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)", borderRadius: "var(--rl)", overflow: "hidden" }}>
+        /* FIXED: removed outer border prop */
+        <GridWrapper>
           {filtered.map((course) => (
             <CourseCard key={course.id} course={course} enrolled={!!enrollments[course.id]} progress={getProgress(course)}
               onClick={() => { setSelectedCourse(course.id); setPage("detail"); }} />
           ))}
-        </div>
+        </GridWrapper>
       )}
       <Footer />
     </div>
@@ -711,7 +731,7 @@ function CourseDetailPage({ courseId, setPage, setLessonAndPage, enrollments, en
   }
 
   return (
-    <div>
+    <div style={{ background: "var(--cream)", minHeight: "100vh" }}>
       <button onClick={() => setPage("courses")} style={{ display: "flex", alignItems: "center", gap: ".4rem", fontSize: ".85rem", color: "var(--text2)", padding: "1.25rem 2.5rem", borderBottom: "1px solid var(--border)", background: "var(--cream2)", width: "100%", cursor: "pointer" }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5m7-7-7 7 7 7" /></svg>
         All courses
@@ -925,7 +945,7 @@ function MyLearningPage({ setPage, setSelectedCourse, setLessonAndPage, enrollme
   const COURSE_ICONS = ["📖", "💻", "📊", "📈", "💰", "🐍"];
 
   return (
-    <div style={{ padding: "2.5rem", maxWidth: 900 }}>
+    <div style={{ padding: "2.5rem" }}>
       <h1 style={{ color: "var(--text)", fontFamily: "var(--serif)", fontSize: "2.2rem", fontWeight: 700, marginBottom: ".3rem", letterSpacing: "-.01em" }}>My Learning</h1>
       <p style={{ fontSize: ".88rem", color: "var(--text3)", marginBottom: "2rem" }}>Track your progress and continue where you left off.</p>
 
