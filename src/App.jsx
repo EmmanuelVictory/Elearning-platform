@@ -645,7 +645,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           Join thousands of traders, investors and financial learners growing their wealth every day. 
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
-          <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
+          <Btn onClick={() => setPage("courses")}>Get Started Free </Btn>
           <Btn variant="secondary" onClick={() => setPage("courses")}>Browse Catalog</Btn>
         </div>
       </div>
