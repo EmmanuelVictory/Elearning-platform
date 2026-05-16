@@ -642,7 +642,7 @@ function HomePage({ setPage, setSelectedCourse, enrollments, getProgress }) {
           Ready to take control of your finances?
         </h2>
         <p style={{ fontSize: ".95rem", color: "var(--text2)", maxWidth: "36rem", margin: "0 auto 2rem" }}>
-          Join thousands of traders, investors and financial learners growing their wealth every day. Your first course is free.
+          Join thousands of traders, investors and financial learners growing their wealth every day. The course is free.
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>
           <Btn onClick={() => setPage("courses")}>Get Started Free →</Btn>
